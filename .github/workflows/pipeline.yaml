@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - '**/ocelot/**'
+      - '**/Tech.Challenge.Api.Gateway/**'
 
 jobs:
   build-and-push:
