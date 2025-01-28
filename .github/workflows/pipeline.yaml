@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-    # paths:
-    #   - '**/Tech.Challenge.Api.Gateway/**'
 
 jobs:
   build-and-push:
@@ -20,9 +18,7 @@ jobs:
         if: contains(github.event.head_commit.message, 'ocelot')
         run: |
           echo "Replacing appsettings for Ocelot"
-          cp -f /home/natan/appsettings/appsettings.Test.json ${{ github.workspace }}/User.Persistence/User.Persistence.Api/appsettings.Test.json
-          cp -f /home/natan/appsettings/appsettings.IntegrationTests.json ${{ github.workspace }}/User.Persistence/User.Persistence.Api/appsettings.IntegrationTests.json
-          cp -f /home/natan/appsettings/appsettings.json ${{ github.workspace }}/User.Persistence/User.Persistence.Api/appsettings.json
+          cp -f /home/natan/appsettings/appsettings.json ${{ github.workspace }}/Tech.Challenge.Api.Gateway/Tech.Challenge.Api.Gateway/appsettings.json
 
       - name: Restore dependencies
         if: contains(github.event.head_commit.message, 'ocelot')
@@ -36,18 +32,6 @@ jobs:
           echo "Building the Ocelot project"
           dotnet build --configuration Release
 
-      - name: Run unit tests for Ocelot
-        if: contains(github.event.head_commit.message, 'ocelot')
-        run: |
-          echo "Running unit tests for Ocelot"
-          dotnet test User.Persistence/User.Persistence.Tests/User.Persistence.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=unit-test-user-Persistence-results.trx"
-
-      - name: Run integration tests for Ocelot
-        if: contains(github.event.head_commit.message, 'ocelot')
-        run: |
-          echo "Running integration tests for Ocelot"
-          dotnet test User.Persistence/User.Persistence.Integration.Tests/User.Persistence.Integration.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=integration-test-user-Persistence-results.trx"
-
       - name: Login to Docker Hub
         if: contains(github.event.head_commit.message, 'ocelot')
         run: |
@@ -58,7 +42,7 @@ jobs:
         if: contains(github.event.head_commit.message, 'ocelot')
         run: |
           echo "Building and pushing Docker image for Ocelot"
-          IMAGE_NAME="natanroberto182/contact-query:latest"
+          IMAGE_NAME="natanroberto182/ocelot:latest"
           docker build -t $IMAGE_NAME .
           docker push $IMAGE_NAME
 
