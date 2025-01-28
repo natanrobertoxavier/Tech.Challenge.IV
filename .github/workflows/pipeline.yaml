@@ -59,12 +59,12 @@ jobs:
         id: services
         run: |
           echo "Determining which services were built successfully"
-          services=()
-          if [[ "${{ steps.build-and-push.outcome }}" == "success" && contains(github.event.head_commit.message, 'ocelot') ]]; then
-            services+=("ocelot")
+          services=""
+          if [[ "${{ needs.build-and-push.result }}" == "success" && "${{ github.event.head_commit.message }}" == *"ocelot"* ]]; then
+            services="ocelot"
           fi
-          echo "Services to notify: ${services[@]}"
-          echo "::set-output name=services::${services[@]}"
+          echo "Services to notify: $services"
+          echo "services=$services" >> $GITHUB_OUTPUT
 
       - name: Notify Configurations Repository
         if: steps.services.outputs.services != ''
