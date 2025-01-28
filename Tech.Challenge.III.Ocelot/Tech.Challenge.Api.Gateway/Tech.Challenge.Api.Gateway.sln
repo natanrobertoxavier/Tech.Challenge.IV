@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{34BD7E31-DECB-48EA-BA81-51DA9BC3CFFD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solutionitens", "solutionitens", "{A2D43938-1109-4756-9E17-9119DC562CD5}"
+	ProjectSection(SolutionItems) = preProject
+		Dockerfile = Dockerfile
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tech.Challenge.Api.Gateway", "Tech.Challenge.Api.Gateway\Tech.Challenge.Api.Gateway.csproj", "{C42B60F6-6139-4C85-8EF5-A52AF953A328}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C42B60F6-6139-4C85-8EF5-A52AF953A328}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C42B60F6-6139-4C85-8EF5-A52AF953A328}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C42B60F6-6139-4C85-8EF5-A52AF953A328}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C42B60F6-6139-4C85-8EF5-A52AF953A328}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C42B60F6-6139-4C85-8EF5-A52AF953A328} = {34BD7E31-DECB-48EA-BA81-51DA9BC3CFFD}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {896EC3C2-5C84-473D-BDE8-E803AA78F8EA}
+	EndGlobalSection
+EndGlobal
