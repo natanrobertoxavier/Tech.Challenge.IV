@@ -76,3 +76,4 @@ jobs:
             -d "{\"event_type\": \"update-configurations\", \"client_payload\": {\"services\": \"${{ steps.services.outputs.services }}\"}}" \
             https://api.github.com/repos/natanrobertoxavier/Tech.Challenge.III.Config.Repo/dispatches)
           echo "Response: $RESPONSE"
+          
