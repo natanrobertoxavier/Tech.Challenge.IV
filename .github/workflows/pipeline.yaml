@@ -18,7 +18,7 @@ jobs:
         if: contains(github.event.head_commit.message, 'ocelot')
         run: |
           echo "Replacing appsettings for Ocelot"
-          cp -f /home/natan/appsettings/appsettings.json ${{ github.workspace }}/Tech.Challenge.Api.Gateway/Tech.Challenge.Api.Gateway/appsettings.json
+          cp -f /home/natan/appsettings/appsettings.json ${{ github.workspace }}/Tech.Challenge.III.Ocelot/Tech.Challenge.Api.Gateway/Tech.Challenge.Api.Gateway/appsettings.json
 
       - name: Restore dependencies
         if: contains(github.event.head_commit.message, 'ocelot')
