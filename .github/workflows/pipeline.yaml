@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - main
-    paths:
-      - '**/Tech.Challenge.Api.Gateway/**'
+    # paths:
+    #   - '**/Tech.Challenge.Api.Gateway/**'
 
 jobs:
   build-and-push:
