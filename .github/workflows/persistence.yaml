@@ -73,4 +73,4 @@ jobs:
             -H "Accept: application/vnd.github.everest-preview+json" \
             -H "Authorization: token ${{ secrets.CONFIG_REPO_TOKEN }}" \
             -d '{"event_type": "update-configurations", "client_payload": {"services": "tech-challenge-persistence"}}' \
-            https://api.github.com/repos/natanrobertoxavier/Tech.Challenge.III.Config.Repo/dispatches      
+            https://api.github.com/repos/natanrobertoxavier/Tech.Challenge.III.Config.Repo/dispatches   
