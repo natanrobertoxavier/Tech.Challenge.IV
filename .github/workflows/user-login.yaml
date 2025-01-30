@@ -1,9 +1,7 @@
-name: .NET Build, Unit, and Integration Tests, and Publish
+name: CI/CD for User Login
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   build:
