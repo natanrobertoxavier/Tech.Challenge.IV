@@ -15,9 +15,9 @@ jobs:
       - name: Replace appsettings for User Query
         run: |
           echo "Replacing appsettings for User Query"
-          cp -f /home/natan/appsettings/appsettings.json ${{ github.workspace }}/User.Query/User.Query.Api/appsettings.json
-          cp -f /home/natan/appsettings/appsettings.Test.json ${{ github.workspace }}/User.Query/User.Query.Api/appsettings.Test.json
-          cp -f /home/natan/appsettings/appsettings.IntegrationTests.json ${{ github.workspace }}/User.Query/User.Query.Api/appsettings.IntegrationTests.json
+          cp -f /home/natan/appsettings/appsettings.json ${{ github.workspace }}Tech.Challenge.III.User.Query/User.Query/User.Query.Api/appsettings.json
+          cp -f /home/natan/appsettings/appsettings.Test.json ${{ github.workspace }}Tech.Challenge.III.User.Query/User.Query/User.Query.Api/appsettings.Test.json
+          cp -f /home/natan/appsettings/appsettings.IntegrationTests.json ${{ github.workspace }}Tech.Challenge.III.User.Query/User.Query/User.Query.Api/appsettings.IntegrationTests.json
 
       - name: Restore dependencies
         run: |
@@ -74,4 +74,3 @@ jobs:
             -H "Authorization: token ${{ secrets.CONFIG_REPO_TOKEN }}" \
             -d '{"event_type": "update-configurations", "client_payload": {"services": "user-query"}}' \
             https://api.github.com/repos/natanrobertoxavier/Tech.Challenge.III.Config.Repo/dispatches
-            
