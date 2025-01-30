@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-and-push:
     name: Build, Test and Publish
     runs-on: self-hosted
 
