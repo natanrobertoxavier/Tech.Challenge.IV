@@ -22,7 +22,7 @@ jobs:
             echo "Executando workflow Ocelot"
             gh workflow run ocelot.yml
          elif echo "$MESSAGE" | grep -q "\[user-query\]"; then
-           echo "Executando workflow User Query
+           echo "Executando workflow User Query"
            gh workflow run user-query.yml
           else
             echo "Nenhum workflow correspondente encontrado."
