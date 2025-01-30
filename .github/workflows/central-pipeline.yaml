@@ -27,6 +27,9 @@ jobs:
           elif echo "$MESSAGE" | grep -q "user-login"; then
             echo "Executando workflow User Login"
             gh workflow run user-login.yaml
+          elif echo "$MESSAGE" | grep -q "tech-challenge-persistence"; then
+            echo "Executando workflow Tech Challenge Persistence"
+            gh workflow run persistence.yaml
           else
             echo "Nenhum workflow correspondente encontrado."
           fi

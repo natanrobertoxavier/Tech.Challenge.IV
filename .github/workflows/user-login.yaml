@@ -45,7 +45,7 @@ jobs:
           echo "Logging into Docker Hub"
           echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
-      - name: Build and Push Docker Image for User Logni
+      - name: Build and Push Docker Image for User Login
         run: |
           echo "Building and pushing Docker image for User Login"
           cd Tech.Challenge.III.User.Login/User.Login/

@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="RabbitMQ.Client" Version="6.0.0" />
+		<PackageReference Include="RabbitMqConfiguration" Version="1.0.9" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+		<PackageReference Include="Serilog" Version="4.2.0" />
+		<PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tech.Challenge.Persistence.Exceptions\Tech.Challenge.Persistence.Exceptions.csproj" />
+    <ProjectReference Include="..\Tech.Challenge.Persistence.Infrasctructure\Tech.Challenge.Persistence.Infrasctructure.csproj" />
+  </ItemGroup>
+
+</Project>

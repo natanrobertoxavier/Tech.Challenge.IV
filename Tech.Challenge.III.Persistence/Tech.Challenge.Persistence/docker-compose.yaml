@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  myapp:
+    image: techchallengepersistence:latest
+    container_name: techchallengepersistence_container
+    ports:
+      - "5207:80"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "HML"
+    networks:
+      - techchallengenetwork
+
+networks:
+  techchallengenetwork:
+    external: true
