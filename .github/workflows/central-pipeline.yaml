@@ -33,5 +33,5 @@ jobs:
           else
             echo "Nenhum workflow correspondente encontrado."
           fi
-        env:
+        env: 
           GH_TOKEN: ${{ secrets.CONFIG_REPO_TOKEN }}
