@@ -18,10 +18,10 @@ jobs:
 
       - name: Identificar e disparar a pipeline do projeto
         run: |
-          if echo "$MESSAGE" | grep -q "\[ocelot\]"; then
+          if echo "$MESSAGE" | grep -q "ocelot"; then
             echo "Executando workflow Ocelot"
             gh workflow run ocelot.yaml
-          elif echo "$MESSAGE" | grep -q "\[user-query\]"; then
+          elif echo "$MESSAGE" | grep -q "user-query"; then
             echo "Executando workflow User Query"
             gh workflow run user-query.yaml
           else
