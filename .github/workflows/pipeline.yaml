@@ -13,41 +13,37 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      
+      if: contains(github.event.head_commit.message, 'ocelot')
+        - name: Replace appsettings for Ocelot
+          run: |
+            echo "Replacing appsettings for Ocelot"
+            cp -f /home/natan/appsettings/ocelot/appsettings.json ${{ github.workspace }}/Tech.Challenge.III.Ocelot/Tech.Challenge.Api.Gateway/Tech.Challenge.Api.Gateway/appsettings.json
 
-      - name: Replace appsettings for Ocelot
-        if: contains(github.event.head_commit.message, 'ocelot')
-        run: |
-          echo "Replacing appsettings for Ocelot"
-          cp -f /home/natan/appsettings/ocelot/appsettings.json ${{ github.workspace }}/Tech.Challenge.III.Ocelot/Tech.Challenge.Api.Gateway/Tech.Challenge.Api.Gateway/appsettings.json
+        - name: Restore dependencies
+          run: |
+            echo "Restoring dependencies for Ocelot"
+            cd Tech.Challenge.III.Ocelot/Tech.Challenge.Api.Gateway/
+            dotnet restore
 
-      - name: Restore dependencies
-        if: contains(github.event.head_commit.message, 'ocelot')
-        run: |
-          echo "Restoring dependencies for Ocelot"
-          cd Tech.Challenge.III.Ocelot/Tech.Challenge.Api.Gateway/
-          dotnet restore
+        - name: Build the Ocelot project
+          run: |
+            echo "Building the Ocelot project"
+            cd Tech.Challenge.III.Ocelot/Tech.Challenge.Api.Gateway/
+            dotnet build --configuration Release
 
-      - name: Build the Ocelot project
-        if: contains(github.event.head_commit.message, 'ocelot')
-        run: |
-          echo "Building the Ocelot project"
-          cd Tech.Challenge.III.Ocelot/Tech.Challenge.Api.Gateway/
-          dotnet build --configuration Release
+        - name: Login to Docker Hub
+          run: |
+            echo "Logging into Docker Hub"
+            echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
-      - name: Login to Docker Hub
-        if: contains(github.event.head_commit.message, 'ocelot')
-        run: |
-          echo "Logging into Docker Hub"
-          echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-
-      - name: Build and Push Docker Image for Ocelot
-        if: contains(github.event.head_commit.message, 'ocelot')
-        run: |
-          echo "Building and pushing Docker image for Ocelot"
-          cd Tech.Challenge.III.Ocelot/Tech.Challenge.Api.Gateway/
-          IMAGE_NAME="natanroberto182/ocelot:latest"
-          docker build -t $IMAGE_NAME .
-          docker push $IMAGE_NAME
+        - name: Build and Push Docker Image for Ocelot
+          run: |
+            echo "Building and pushing Docker image for Ocelot"
+            cd Tech.Challenge.III.Ocelot/Tech.Challenge.Api.Gateway/
+            IMAGE_NAME="natanroberto182/ocelot:latest"
+            docker build -t $IMAGE_NAME .
+            docker push $IMAGE_NAME
 
   notify-config-repo:
     name: Notify Configurations Repository
@@ -55,28 +51,29 @@ jobs:
     needs: build-and-push
 
     steps:
-      - name: Set the list of services to notify
-        id: services
-        run: |
-          echo "Determining which services were built successfully"
-          services=""
-          if [[ "${{ needs.build-and-push.result }}" == "success" && "${{ github.event.head_commit.message }}" == *"ocelot"* ]]; then
-            services="ocelot"
-          fi
-          echo "Services to notify: $services"
-          echo "services=$services" >> $GITHUB_OUTPUT
-
-      - name: Check GitHub Token permissions
-        run: |
-          curl -H "Authorization: token ${{ secrets.CONFIG_REPO_TOKEN }}" \
-               -H "Accept: application/vnd.github.v3+json" \
-               https://api.github.com/repos/natanrobertoxavier/Tech.Challenge.III.Config.Repo
-
-      - name: Notify Configuration Repository
-        run: |
-          curl -X POST \
-            -H "Accept: application/vnd.github.everest-preview+json" \
-            -H "Authorization: token ${{ secrets.CONFIG_REPO_TOKEN }}" \
-            -d '{"event_type": "update-configurations", "client_payload": {"services": "ocelot"}}' \
-            https://api.github.com/repos/natanrobertoxavier/Tech.Challenge.III.Config.Repo/dispatches
+      if: contains(github.event.head_commit.message, 'ocelot')
+        - name: Set the list of services to notify
+          id: services
+          run: |
+            echo "Determining which services were built successfully"
+            services=""
+            if [[ "${{ needs.build-and-push.result }}" == "success" && "${{ github.event.head_commit.message }}" == *"ocelot"* ]]; then
+              services="ocelot"
+            fi
+            echo "Services to notify: $services"
+            echo "services=$services" >> $GITHUB_OUTPUT
+  
+        - name: Check GitHub Token permissions
+          run: |
+            curl -H "Authorization: token ${{ secrets.CONFIG_REPO_TOKEN }}" \
+                 -H "Accept: application/vnd.github.v3+json" \
+                 https://api.github.com/repos/natanrobertoxavier/Tech.Challenge.III.Config.Repo
+  
+        - name: Notify Configuration Repository
+          run: |
+            curl -X POST \
+              -H "Accept: application/vnd.github.everest-preview+json" \
+              -H "Authorization: token ${{ secrets.CONFIG_REPO_TOKEN }}" \
+              -d '{"event_type": "update-configurations", "client_payload": {"services": "ocelot"}}' \
+              https://api.github.com/repos/natanrobertoxavier/Tech.Challenge.III.Config.Repo/dispatches
             
