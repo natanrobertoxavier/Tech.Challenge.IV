@@ -38,7 +38,7 @@ jobs:
       - name: Run integration tests
         run: |
           echo "Running integration tests"
-          dotnet test Tech.Challenge.III.Persistence/Tech.Challenge.Persistence.Integration.Tests/Tech.Challenge.Persistence.Integration.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=integration-test-tech-challenge-persistence-results.trx"
+          dotnet test Tech.Challenge.III.Persistence/Tech.Challenge.Persistence/Tech.Challenge.Persistence.Integration.Tests/Tech.Challenge.Persistence.Integration.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=integration-test-tech-challenge-persistence-results.trx"
       
       - name: Login to Docker Hub
         run: |
