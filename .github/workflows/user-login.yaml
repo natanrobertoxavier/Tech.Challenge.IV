@@ -1,0 +1,78 @@
+name: .NET Build, Unit, and Integration Tests, and Publish
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build, Test and Publish
+    runs-on: self-hosted
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+      - name: Replace appsettings for User Login
+        run: |
+          echo "Replacing appsettings for User Login"
+          cp -f /home/natan/appsettings/appsettings.json ${{ github.workspace }}/Tech.Challenge.III.User.Login/User.Login/User.Login.Api/appsettings.json
+          cp -f /home/natan/appsettings/appsettings.Test.json ${{ github.workspace }}/Tech.Challenge.III.User.Login/User.Login/User.Login.Api/appsettings.Test.json
+          cp -f /home/natan/appsettings/appsettings.IntegrationTests.json ${{ github.workspace }}/Tech.Challenge.III.User.Login/User.Login/User.Login.Api/appsettings.IntegrationTests.json
+
+      - name: Restore dependencies
+        run: |
+          echo "Restoring dependencies for User Login"
+          cd Tech.Challenge.III.User.Login/User.Login/
+          dotnet restore
+
+      - name: Build the User Login
+        run: |
+          echo "Building the User Login"
+          dotnet build Tech.Challenge.III.User.Login/User.Login/User.Login.sln --no-restore --configuration Release
+
+      - name: Run unit tests
+        run: |
+          echo "Running unit tests"
+          dotnet test Tech.Challenge.III.User.Login/User.Login/User.Login.Tests/User.Login.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=unit-test-user-login-results.trx"
+
+      - name: Run integration tests
+        run: |
+          echo "Running integration tests"
+          dotnet test Tech.Challenge.III.User.Login/User.Login/User.Login.Integration.Tests/User.Login.Integration.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=integration-test-user-login-results.trx"
+      
+      - name: Login to Docker Hub
+        run: |
+          echo "Logging into Docker Hub"
+          echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Build and Push Docker Image for User Logni
+        run: |
+          echo "Building and pushing Docker image for User Login"
+          cd Tech.Challenge.III.User.Login/User.Login/
+          IMAGE_NAME="natanroberto182/user-login:latest"
+          docker build -t $IMAGE_NAME .
+          docker push $IMAGE_NAME
+
+  notify-config-repo:
+    name: Notify Configurations Repository
+    runs-on: self-hosted
+    needs: build-and-push
+
+    steps:
+      - name: Set the list of services to notify
+        id: services
+        run: |
+          echo "Determining which services were built successfully"
+          services="user-login"
+          echo "Services to notify: $services"
+          echo "services=$services" >> $GITHUB_OUTPUT
+
+      - name: Notify Configuration Repository
+        run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github.everest-preview+json" \
+            -H "Authorization: token ${{ secrets.CONFIG_REPO_TOKEN }}" \
+            -d '{"event_type": "update-configurations", "client_payload": {"services": "user-login"}}' \
+            https://api.github.com/repos/natanrobertoxavier/Tech.Challenge.III.Config.Repo/dispatches

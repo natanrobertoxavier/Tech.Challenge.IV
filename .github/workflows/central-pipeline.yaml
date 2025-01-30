@@ -24,6 +24,9 @@ jobs:
           elif echo "$MESSAGE" | grep -q "user-query"; then
             echo "Executando workflow User Query"
             gh workflow run user-query.yaml
+          elif echo "$MESSAGE" | grep -q "user-login"; then
+            echo "Executando workflow User Login"
+            gh workflow run user-login.yaml
           else
             echo "Nenhum workflow correspondente encontrado."
           fi

@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-login-container
+  labels:
+    app: user-login
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-login
+  template:
+    metadata:
+      labels:
+        app: user-login
+    spec:
+      containers:
+      - name: user-login
+        image: "natanroberto182/user-login:latest"
+        ports:
+        - containerPort: 80
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "HML"
