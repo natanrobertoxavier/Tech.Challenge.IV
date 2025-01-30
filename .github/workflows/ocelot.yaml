@@ -1,9 +1,7 @@
-name: CI/CD for Microservices in Monorepo
+name: CI/CD for Ocelot
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   build-and-push:
@@ -57,12 +55,6 @@ jobs:
           services="ocelot"
           echo "Services to notify: $services"
           echo "services=$services" >> $GITHUB_OUTPUT
-
-      - name: Check GitHub Token permissions
-        run: |
-          curl -H "Authorization: token ${{ secrets.CONFIG_REPO_TOKEN }}" \
-               -H "Accept: application/vnd.github.v3+json" \
-               https://api.github.com/repos/natanrobertoxavier/Tech.Challenge.III.Config.Repo
 
       - name: Notify Configuration Repository
         run: |

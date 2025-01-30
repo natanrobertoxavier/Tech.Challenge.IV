@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-query-container
+  labels:
+    app: user-query
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-query
+  template:
+    metadata:
+      labels:
+        app: user-query
+    spec:
+      containers:
+      - name: user-query
+        image: "natanroberto182/user-query:latest"
+        ports:
+        - containerPort: 80
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "HML"
