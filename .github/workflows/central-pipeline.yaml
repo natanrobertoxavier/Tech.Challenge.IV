@@ -26,5 +26,6 @@ jobs:
             gh workflow run user-query.yaml
           else
             echo "Nenhum workflow correspondente encontrado."
+          fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
