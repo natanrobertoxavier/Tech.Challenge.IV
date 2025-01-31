@@ -6,7 +6,7 @@ on:
 jobs:
   build-and-push:
     name: Build, Test, and Publish Docker Images for Changed Services
-    runs-on: self-hosted
+    runs-on: NOTEBOOK-NATAN
 
     steps:
       - name: Checkout code

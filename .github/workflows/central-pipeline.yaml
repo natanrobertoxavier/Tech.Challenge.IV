@@ -7,7 +7,7 @@ on:
 
 jobs:
   identify_and_trigger:
-    runs-on: self-hosted
+    runs-on: NOTEBOOK-NATAN
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
