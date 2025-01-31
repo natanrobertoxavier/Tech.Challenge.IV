@@ -35,3 +35,4 @@ jobs:
           fi
         env: 
           GH_TOKEN: ${{ secrets.CONFIG_REPO_TOKEN }}
+          
