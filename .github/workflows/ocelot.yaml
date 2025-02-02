@@ -15,7 +15,7 @@ jobs:
       - name: Replace appsettings for Ocelot
         run: |
           echo "Replacing appsettings for Ocelot"
-          cmd /C "copy /Y c:\appsettings\ocelot\appsettings.json %GITHUB_WORKSPACE%\Tech.Challenge.III.Ocelot\Tech.Challenge.Api.Gateway\Tech.Challenge.Api.Gateway\appsettings.json"
+          cp -f /home/natan/appsettings/ocelot/appsettings.json ${{ github.workspace }}/Tech.Challenge.III.Ocelot/Tech.Challenge.Api.Gateway/Tech.Challenge.Api.Gateway/appsettings.json
 
       - name: Restore dependencies
         run: |
@@ -29,24 +29,10 @@ jobs:
           cd Tech.Challenge.III.Ocelot/Tech.Challenge.Api.Gateway/
           dotnet build --configuration Release
 
-      # - name: Test Docker Hub Login with curl
-      #   run: |
-      #     echo "Testing connection to Docker Hub"
-      #     set DOCKERHUB_PASSWORD=${{ secrets.DOCKERHUB_PASSWORD }}
-      #     set DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}
-      #     echo "Username: %DOCKERHUB_USERNAME%"
-      #     echo "Password: %DOCKERHUB_PASSWORD%"
-          
-          curl.exe -u %DOCKERHUB_USERNAME%:%DOCKERHUB_PASSWORD% https://index.docker.io/v1/
-
-      - name: Login to Docker Hub with PowerShell
+      - name: Login to Docker Hub
         run: |
           echo "Logging into Docker Hub"
-          $env:DOCKERHUB_PASSWORD="${{ secrets.DOCKERHUB_PASSWORD }}"
-          $env:DOCKERHUB_USERNAME="${{ secrets.DOCKERHUB_USERNAME }}"
-          echo "Username: $env:DOCKERHUB_USERNAME"
-          echo "Password: $env:DOCKERHUB_PASSWORD"
-          docker login -u $env:DOCKERHUB_USERNAME -p $env:DOCKERHUB_PASSWORD
+          echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
       - name: Build and Push Docker Image for Ocelot
         run: |
