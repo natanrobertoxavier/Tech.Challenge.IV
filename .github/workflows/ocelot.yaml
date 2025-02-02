@@ -37,7 +37,7 @@ jobs:
       #     echo "Username: %DOCKERHUB_USERNAME%"
       #     echo "Password: %DOCKERHUB_PASSWORD%"
           
-      #     curl.exe -u %DOCKERHUB_USERNAME%:%DOCKERHUB_PASSWORD% https://index.docker.io/v1/
+          curl.exe -u %DOCKERHUB_USERNAME%:%DOCKERHUB_PASSWORD% https://index.docker.io/v1/
 
       - name: Login to Docker Hub with PowerShell
         run: |
@@ -46,14 +46,7 @@ jobs:
           $env:DOCKERHUB_USERNAME="${{ secrets.DOCKERHUB_USERNAME }}"
           echo "Username: $env:DOCKERHUB_USERNAME"
           echo "Password: $env:DOCKERHUB_PASSWORD"
-          echo $env:DOCKERHUB_PASSWORD | docker login -u $env:DOCKERHUB_USERNAME --password-stdin
-
-      # - name: Login to Docker Hub
-      #   run: |
-      #     echo "Logging into Docker Hub"
-      #     set DOCKERHUB_PASSWORD=${{ secrets.DOCKERHUB_PASSWORD }}
-      #     set DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}
-      #     echo %DOCKERHUB_PASSWORD% | docker login -u %DOCKERHUB_USERNAME% --password-stdin
+          docker login -u $env:DOCKERHUB_USERNAME -p $env:DOCKERHUB_PASSWORD
 
       - name: Build and Push Docker Image for Ocelot
         run: |
