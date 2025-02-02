@@ -12,17 +12,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Obter mensagem do commit
-        run: cmd /c "echo MESSAGE=$(git log -1 --pretty=%B) >> %GITHUB_ENV%"
+      # - name: Obter mensagem do commit
+      #   run: cmd /c "echo MESSAGE=$(git log -1 --pretty=%B) >> %GITHUB_ENV%"
 
       # - name: Definir política de execução temporária
       #   run: powershell -ExecutionPolicy Bypass -command "echo 'Política ajustada temporariamente'"
 
-      # - name: Obter mensagem de commit
-      #   id: commit_message
-      #   run: echo "MESSAGE=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
+      - name: Obter mensagem de commit
+        id: commit_message
+        run: echo "MESSAGE=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
 
       - name: Identificar e disparar a pipeline do projeto
+        shell: bash
         run: |
           if echo "$MESSAGE" | grep -q "ocelot"; then
             echo "Executando workflow Ocelot"
