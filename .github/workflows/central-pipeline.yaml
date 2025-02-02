@@ -22,8 +22,25 @@ jobs:
         id: commit_message
         run: echo "MESSAGE=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
 
-      - name: Identificar e disparar a pipeline do projeto
-        shell: bash
+      # - name: Identificar e disparar a pipeline do projeto
+      #   run: |
+      #     if echo "$MESSAGE" | grep -q "ocelot"; then
+      #       echo "Executando workflow Ocelot"
+      #       gh workflow run ocelot.yaml
+      #     elif echo "$MESSAGE" | grep -q "user-query"; then
+      #       echo "Executando workflow User Query"
+      #       gh workflow run user-query.yaml
+      #     elif echo "$MESSAGE" | grep -q "user-login"; then
+      #       echo "Executando workflow User Login"
+      #       gh workflow run user-login.yaml
+      #     elif echo "$MESSAGE" | grep -q "tech-challenge-persistence"; then
+      #       echo "Executando workflow Tech Challenge Persistence"
+      #       gh workflow run persistence.yaml
+      #     else
+      #       echo "Nenhum workflow correspondente encontrado."
+      #     fi
+      
+      - name: Executar script
         run: |
           if echo "$MESSAGE" | grep -q "ocelot"; then
             echo "Executando workflow Ocelot"
@@ -40,6 +57,8 @@ jobs:
           else
             echo "Nenhum workflow correspondente encontrado."
           fi
+        shell: bash
+      
         env: 
           GH_TOKEN: ${{ secrets.CONFIG_REPO_TOKEN }}
           
