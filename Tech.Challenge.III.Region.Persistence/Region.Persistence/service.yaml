@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: region-persistence-service
+spec:
+  selector:
+    app: region-persistence
+  ports:
+    - protocol: TCP
+      port: 5203
+      targetPort: 80
+  type: LoadBalancer

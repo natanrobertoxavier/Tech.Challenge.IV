@@ -33,6 +33,9 @@ jobs:
           elif echo "$MESSAGE" | grep -q "region-query"; then
             echo "Executando workflow Region Query"
             gh workflow run region-query.yaml
+          elif echo "$MESSAGE" | grep -q "region-persistence"; then
+            echo "Executando workflow Region Persistence"
+            gh workflow run region-persistence.yaml
           else
             echo "Nenhum workflow correspondente encontrado."
           fi

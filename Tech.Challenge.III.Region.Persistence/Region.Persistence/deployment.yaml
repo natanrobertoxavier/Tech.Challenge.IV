@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: region-persistence-container
+  labels:
+    app: region-persistence
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: region-persistence
+  template:
+    metadata:
+      labels:
+        app: region-persistence
+    spec:
+      containers:
+      - name: region-persistence
+        image: "natanroberto182/region-persistence:latest"
+        ports:
+        - containerPort: 80
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "HML"
