@@ -76,8 +76,9 @@ jobs:
 
       - name: Notify Configuration Repository
         run: |
-          curl -X POST \
-            -H "Accept: application/vnd.github.everest-preview+json" \
-            -H "Authorization: token ${{ secrets.CONFIG_REPO_TOKEN }}" \
-            -d '{"event_type": "update-configurations", "client_payload": {"$services": "region-query"}}' \
+          curl.exe -X POST `
+            -H "Accept: application/vnd.github.everest-preview+json" `
+            -H "Authorization: token ${{ secrets.CONFIG_REPO_TOKEN }}" `
+            -d "{\"event_type\": \"update-configurations\", \"client_payload\": {\"services\": \"region-query\"}}" `
             https://api.github.com/repos/natanrobertoxavier/Tech.Challenge.III.Config.Repo/dispatches
+        shell: cmd
