@@ -33,7 +33,7 @@ jobs:
       - name: Run unit tests
         run: |
           echo "Running unit tests"
-          dotnet test Tech.Challenge.III.Region.Query/Region.Query/Region.Query.Tests/Region.Query.csproj --no-build --configuration Release --logger "trx;LogFileName=unit-test-region-query-results.trx"
+          dotnet test Tech.Challenge.III.Region.Query/Region.Query/Region.Query.Tests/Region.Query.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=unit-test-region-query-results.trx"
 
       - name: Run integration tests
         run: |
