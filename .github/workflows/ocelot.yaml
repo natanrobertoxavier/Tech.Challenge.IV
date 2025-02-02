@@ -5,7 +5,7 @@ on:
 
 jobs:
   build-and-push:
-    name: Build, Test, and Publish Docker Images for Changed Services
+    name: Build, Test, and Publish Docker Image - Ocelot
     runs-on: NOTEBOOK-NATAN
 
     steps:

@@ -5,19 +5,13 @@ on:
 
 jobs:
   build-and-push:
-    name: Build, Test and Publish
+    name: Build, Test, and Publish Docker Image - User Login
     runs-on: NOTEBOOK-NATAN
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      # - name: Replace appsettings for User Login
-      #   run: |
-      #     echo "Replacing appsettings for User Login"
-      #     cp -f /home/natan/appsettings/appsettings.json ${{ github.workspace }}/Tech.Challenge.III.User.Login/User.Login/User.Login.Api/appsettings.json
-      #     cp -f /home/natan/appsettings/appsettings.Test.json ${{ github.workspace }}/Tech.Challenge.III.User.Login/User.Login/User.Login.Api/appsettings.Test.json
-      #     cp -f /home/natan/appsettings/appsettings.IntegrationTests.json ${{ github.workspace }}/Tech.Challenge.III.User.Login/User.Login/User.Login.Api/appsettings.IntegrationTests.json
+        
       - name: Replace appsettings for User Login
         run: |
           echo "Replacing appsettings for User Login"
