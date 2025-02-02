@@ -12,9 +12,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Check running user
-        run: whoami
-
       - name: Replace appsettings for Region Query
         run: |
           echo "Replacing appsettings for Region Query"
@@ -72,7 +69,7 @@ jobs:
 
   notify-config-repo:
     name: Notify Configurations Repository
-    runs-on: self-hosted
+    runs-on: NOTEBOOK-NATAN
     needs: build-and-push
 
     steps:
