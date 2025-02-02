@@ -7,7 +7,7 @@ on:
 
 jobs:
   identify_and_trigger:
-    runs-on: NOTEBOOK-NATAN
+    runs-on: self-hosted
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -18,55 +18,34 @@ jobs:
       # - name: Definir política de execução temporária
       #   run: powershell -ExecutionPolicy Bypass -command "echo 'Política ajustada temporariamente'"
 
-      # - name: Obter mensagem de commit
-      #   id: commit_message
-      #   run: echo "MESSAGE=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
+      - name: Obter mensagem de commit
+        id: commit_message
+        run: echo "MESSAGE=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
 
-      - name: Obter mensagem do commit
-        id: get_commit_message
-        run: |
-          $MESSAGE = git log -1 --pretty=%B
-          echo "MESSAGE=$MESSAGE" >> $GITHUB_EN
-
-      # - name: Identificar e disparar a pipeline do projeto
+      # - name: Obter mensagem do commit
+      #   id: get_commit_message
       #   run: |
-      #     if echo "$MESSAGE" | grep -q "ocelot"; then
-      #       echo "Executando workflow Ocelot"
-      #       gh workflow run ocelot.yaml
-      #     elif echo "$MESSAGE" | grep -q "user-query"; then
-      #       echo "Executando workflow User Query"
-      #       gh workflow run user-query.yaml
-      #     elif echo "$MESSAGE" | grep -q "user-login"; then
-      #       echo "Executando workflow User Login"
-      #       gh workflow run user-login.yaml
-      #     elif echo "$MESSAGE" | grep -q "tech-challenge-persistence"; then
-      #       echo "Executando workflow Tech Challenge Persistence"
-      #       gh workflow run persistence.yaml
-      #     else
-      #       echo "Nenhum workflow correspondente encontrado."
-      #     fi
+      #     $MESSAGE = git log -1 --pretty=%B
+      #     echo "MESSAGE=$MESSAGE" >> $GITHUB_EN
 
-      - name: Executar script
+      - name: Identificar e disparar a pipeline do projeto
         run: |
-          Write-Output "Valor de MESSAGE: $env:MESSAGE"
-
-          if ($env:MESSAGE -like "ocelot") {
-            Write-Output "Executando workflow Ocelot"
+          if echo "$MESSAGE" | grep -q "ocelot"; then
+            echo "Executando workflow Ocelot"
             gh workflow run ocelot.yaml
-          } elseif ($env:MESSAGE -like "user-query") {
-            Write-Output "Executando workflow User Query"
+          elif echo "$MESSAGE" | grep -q "user-query"; then
+            echo "Executando workflow User Query"
             gh workflow run user-query.yaml
-          } elseif ($env:MESSAGE -like "user-login") {
-            Write-Output "Executando workflow User Login"
+          elif echo "$MESSAGE" | grep -q "user-login"; then
+            echo "Executando workflow User Login"
             gh workflow run user-login.yaml
-          } elseif ($env:MESSAGE -like "tech-challenge-persistence") {
-            Write-Output "Executando workflow Tech Challenge Persistence"
+          elif echo "$MESSAGE" | grep -q "tech-challenge-persistence"; then
+            echo "Executando workflow Tech Challenge Persistence"
             gh workflow run persistence.yaml
-          } else {
-            Write-Output "Nenhum workflow correspondente encontrado."
-          }
-        shell: powershell
-      
+          else
+            echo "Nenhum workflow correspondente encontrado."
+          fi
+
         env: 
           GH_TOKEN: ${{ secrets.CONFIG_REPO_TOKEN }}
           
