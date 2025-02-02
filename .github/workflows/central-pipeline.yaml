@@ -12,9 +12,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Permitir execução de scripts no PowerShell
+        run: Set-ExecutionPolicy Unrestricted -Scope Process -Force
+        shell: pwsh
+
       - name: Obter mensagem de commit
         id: commit_message
-        run: powershell -ExecutionPolicy Bypass -command echo "MESSAGE=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
+        run: echo "MESSAGE=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
 
       - name: Identificar e disparar a pipeline do projeto
         run: |
@@ -35,4 +39,4 @@ jobs:
           fi
         env: 
           GH_TOKEN: ${{ secrets.CONFIG_REPO_TOKEN }}
-
+          
