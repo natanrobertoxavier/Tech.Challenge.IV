@@ -12,11 +12,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # - name: Check Token Permissions
-      #   run: |
-      #     echo "Checking token permissions..."
-      #     curl -H "Authorization: token ${{ secrets.CONFIG_REPO_TOKEN }}" https://api.github.com/user
-
       - name: Obter mensagem de commit
         id: commit_message
         run: echo "MESSAGE=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
