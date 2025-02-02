@@ -39,6 +39,9 @@ jobs:
           elif echo "$MESSAGE" | grep -q "user-persistence"; then
             echo "Executando workflow User Persistence"
             gh workflow run user-persistence.yaml
+          elif echo "$MESSAGE" | grep -q "contact-query"; then
+            echo "Executando workflow Contact Query"
+            gh workflow run contact-query.yaml
           else
             echo "Nenhum workflow correspondente encontrado."
           fi
