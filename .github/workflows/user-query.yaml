@@ -40,12 +40,14 @@ jobs:
           echo "Running integration tests"
           dotnet test Tech.Challenge.III.User.Query/User.Query/User.Query.Integration.Tests/User.Query.Integration.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=integration-test-user-query-results.trx"
       
-      - name: Login to Docker Hub
+      - name: Login to Docker Hub with PowerShell
         run: |
           echo "Logging into Docker Hub"
           $env:DOCKERHUB_PASSWORD="${{ secrets.DOCKERHUB_PASSWORD }}"
           $env:DOCKERHUB_USERNAME="${{ secrets.DOCKERHUB_USERNAME }}"
-          echo $env:DOCKERHUB_PASSWORD | docker login -u $env:DOCKERHUB_USERNAME --password-stdin
+          echo "Username: $env:DOCKERHUB_USERNAME"
+          echo "Password: $env:DOCKERHUB_PASSWORD"
+          docker login -u $env:DOCKERHUB_USERNAME -p $env:DOCKERHUB_PASSWORD
 
       - name: Build and Push Docker Image for User Query
         run: |
