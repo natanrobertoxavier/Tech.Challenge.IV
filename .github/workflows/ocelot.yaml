@@ -37,7 +37,7 @@ jobs:
           echo "Username: %DOCKERHUB_USERNAME%"
           echo "Password: %DOCKERHUB_PASSWORD%"
           
-          curl -u %DOCKERHUB_USERNAME%:%DOCKERHUB_PASSWORD% https://index.docker.io/v1/
+          curl.exe -u %DOCKERHUB_USERNAME%:%DOCKERHUB_PASSWORD% https://index.docker.io/v1/
 
       - name: Login to Docker Hub with PowerShell
         run: |
