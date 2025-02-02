@@ -39,25 +39,25 @@ jobs:
       #     else
       #       echo "Nenhum workflow correspondente encontrado."
       #     fi
-      
+
       - name: Executar script
         run: |
-          if echo "$MESSAGE" | grep -q "ocelot"; then
-            echo "Executando workflow Ocelot"
+          if ($env:MESSAGE -match "ocelot") {
+            Write-Output "Executando workflow Ocelot"
             gh workflow run ocelot.yaml
-          elif echo "$MESSAGE" | grep -q "user-query"; then
-            echo "Executando workflow User Query"
+          } elseif ($env:MESSAGE -match "user-query") {
+            Write-Output "Executando workflow User Query"
             gh workflow run user-query.yaml
-          elif echo "$MESSAGE" | grep -q "user-login"; then
-            echo "Executando workflow User Login"
+          } elseif ($env:MESSAGE -match "user-login") {
+            Write-Output "Executando workflow User Login"
             gh workflow run user-login.yaml
-          elif echo "$MESSAGE" | grep -q "tech-challenge-persistence"; then
-            echo "Executando workflow Tech Challenge Persistence"
+          } elseif ($env:MESSAGE -match "tech-challenge-persistence") {
+            Write-Output "Executando workflow Tech Challenge Persistence"
             gh workflow run persistence.yaml
-          else
-            echo "Nenhum workflow correspondente encontrado."
-          fi
-        shell: bash
+          } else {
+            Write-Output "Nenhum workflow correspondente encontrado."
+          }
+        shell: pwsh
       
         env: 
           GH_TOKEN: ${{ secrets.CONFIG_REPO_TOKEN }}
