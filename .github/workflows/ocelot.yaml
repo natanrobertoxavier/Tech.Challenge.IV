@@ -29,15 +29,15 @@ jobs:
           cd Tech.Challenge.III.Ocelot/Tech.Challenge.Api.Gateway/
           dotnet build --configuration Release
 
-      - name: Test Docker Hub Login with curl
-        run: |
-          echo "Testing connection to Docker Hub"
-          set DOCKERHUB_PASSWORD=${{ secrets.DOCKERHUB_PASSWORD }}
-          set DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}
-          echo "Username: %DOCKERHUB_USERNAME%"
-          echo "Password: %DOCKERHUB_PASSWORD%"
+      # - name: Test Docker Hub Login with curl
+      #   run: |
+      #     echo "Testing connection to Docker Hub"
+      #     set DOCKERHUB_PASSWORD=${{ secrets.DOCKERHUB_PASSWORD }}
+      #     set DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}
+      #     echo "Username: %DOCKERHUB_USERNAME%"
+      #     echo "Password: %DOCKERHUB_PASSWORD%"
           
-          curl.exe -u %DOCKERHUB_USERNAME%:%DOCKERHUB_PASSWORD% https://index.docker.io/v1/
+      #     curl.exe -u %DOCKERHUB_USERNAME%:%DOCKERHUB_PASSWORD% https://index.docker.io/v1/
 
       - name: Login to Docker Hub with PowerShell
         run: |
@@ -46,7 +46,7 @@ jobs:
           $env:DOCKERHUB_USERNAME="${{ secrets.DOCKERHUB_USERNAME }}"
           echo "Username: $env:DOCKERHUB_USERNAME"
           echo "Password: $env:DOCKERHUB_PASSWORD"
-          docker login -u $env:DOCKERHUB_USERNAME --password-stdin <<< $env:DOCKERHUB_PASSWORD
+          echo $env:DOCKERHUB_PASSWORD | docker login -u $env:DOCKERHUB_USERNAME --password-stdin
 
       # - name: Login to Docker Hub
       #   run: |
