@@ -43,7 +43,7 @@ jobs:
       - name: Executar script
         run: |
           Write-Output "Valor de MESSAGE: $env:MESSAGE"
-          
+
           if ($env:MESSAGE -like "ocelot") {
             Write-Output "Executando workflow Ocelot"
             gh workflow run ocelot.yaml
@@ -63,4 +63,5 @@ jobs:
       
         env: 
           GH_TOKEN: ${{ secrets.CONFIG_REPO_TOKEN }}
+          
           
