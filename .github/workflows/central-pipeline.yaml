@@ -12,10 +12,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Check Token Permissions
-        run: |
-          echo "Checking token permissions..."
-          curl -H "Authorization: token ${{ secrets.CONFIG_REPO_TOKEN }}" https://api.github.com/user
+      # - name: Check Token Permissions
+      #   run: |
+      #     echo "Checking token permissions..."
+      #     curl -H "Authorization: token ${{ secrets.CONFIG_REPO_TOKEN }}" https://api.github.com/user
 
       - name: Obter mensagem de commit
         id: commit_message
@@ -41,4 +41,3 @@ jobs:
 
         env: 
           GH_TOKEN: ${{ secrets.CONFIG_REPO_TOKEN }}
-          
