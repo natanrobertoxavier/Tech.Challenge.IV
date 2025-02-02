@@ -42,16 +42,18 @@ jobs:
 
       - name: Executar script
         run: |
-          if ($env:MESSAGE -match "ocelot") {
+          Write-Output "Valor de MESSAGE: $env:MESSAGE"
+          
+          if ($env:MESSAGE -like "ocelot") {
             Write-Output "Executando workflow Ocelot"
             gh workflow run ocelot.yaml
-          } elseif ($env:MESSAGE -match "user-query") {
+          } elseif ($env:MESSAGE -like "user-query") {
             Write-Output "Executando workflow User Query"
             gh workflow run user-query.yaml
-          } elseif ($env:MESSAGE -match "user-login") {
+          } elseif ($env:MESSAGE -like "user-login") {
             Write-Output "Executando workflow User Login"
             gh workflow run user-login.yaml
-          } elseif ($env:MESSAGE -match "tech-challenge-persistence") {
+          } elseif ($env:MESSAGE -like "tech-challenge-persistence") {
             Write-Output "Executando workflow Tech Challenge Persistence"
             gh workflow run persistence.yaml
           } else {
