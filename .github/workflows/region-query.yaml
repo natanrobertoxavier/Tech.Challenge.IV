@@ -57,13 +57,6 @@ jobs:
           docker build -t $IMAGE_NAME .
           docker push $IMAGE_NAME
 
-    - name: Build and Push Docker Image
-      run: |
-        IMAGE_NAME="natanroberto182/region-query:latest"
-        cd Region.Query
-        docker build -t $IMAGE_NAME .
-        docker push $IMAGE_NAME
-
       - name: Logout from Docker Hub
         run: docker logout
 
