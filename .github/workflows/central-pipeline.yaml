@@ -57,7 +57,7 @@ jobs:
           } else {
             Write-Output "Nenhum workflow correspondente encontrado."
           }
-        shell: pwsh
+        shell: cmd
       
         env: 
           GH_TOKEN: ${{ secrets.CONFIG_REPO_TOKEN }}
