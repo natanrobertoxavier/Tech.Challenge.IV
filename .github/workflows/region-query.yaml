@@ -1,0 +1,93 @@
+name: CI/CD for Region Query
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    name: Build, Test, and Publish Docker Image - Region Query
+    runs-on: NOTEBOOK-NATAN
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Check running user
+        run: whoami
+
+      - name: Replace appsettings for Region Query
+        run: |
+          echo "Replacing appsettings for Region Query"
+          cmd /C "copy /Y c:\appsettings\appsettings.json %GITHUB_WORKSPACE%\Tech.Challenge.III.Region.Query\Region.Query\Region.Query.Api\appsettings.json"
+          cmd /C "copy /Y c:\appsettings\appsettings.Test.json %GITHUB_WORKSPACE%\Tech.Challenge.III.Region.Query\Region.Query\Region.Query.Api\appsettings.Test.json"
+          cmd /C "copy /Y c:\appsettings\appsettings.IntegrationTests.json %GITHUB_WORKSPACE%\Tech.Challenge.III.Region.Query\Region.Query\Region.Query.Api\appsettings.IntegrationTests.json"
+
+      - name: Restore dependencies
+        run: |
+          echo "Restoring dependencies for Region Query"
+          cd Tech.Challenge.III.Region.Query/Region.Query/
+          dotnet restore
+
+      - name: Build the Region Query
+        run: |
+          echo "Building the Region Query"
+          dotnet build Tech.Challenge.III.Region.Query/Region.Query/Region.Query.sln --no-restore --configuration Release
+
+      - name: Run unit tests
+        run: |
+          echo "Running unit tests"
+          dotnet test Tech.Challenge.III.Region.Query/Region.Query/Region.Query.Tests/Region.Query.csproj --no-build --configuration Release --logger "trx;LogFileName=unit-test-region-query-results.trx"
+
+      - name: Run integration tests
+        run: |
+          echo "Running integration tests"
+          dotnet test Tech.Challenge.III.Region.Query/Region.Query/Region.Query.Integration.Tests/Region.Query.Integration.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=integration-test-region-query-results.trx"
+
+      - name: Login to Docker Hub
+        run: |
+          echo "Logging into Docker Hub"
+          $env:DOCKERHUB_PASSWORD="${{ secrets.DOCKERHUB_PASSWORD }}"
+          $env:DOCKERHUB_USERNAME="${{ secrets.DOCKERHUB_USERNAME }}"
+          echo "Username: $env:DOCKERHUB_USERNAME"
+          echo "Password: $env:DOCKERHUB_PASSWORD"
+          docker login -u $env:DOCKERHUB_USERNAME -p $env:DOCKERHUB_PASSWORD
+
+      - name: Build and Push Docker Image for Region Query
+        run: |
+          echo "Building and pushing Docker image for Region Query"
+          cd Tech.Challenge.III.Region.Query/Region.Query/
+          $IMAGE_NAME="natanroberto182/region-query:latest"
+          docker build -t $IMAGE_NAME .
+          docker push $IMAGE_NAME
+
+    - name: Build and Push Docker Image
+      run: |
+        IMAGE_NAME="natanroberto182/region-query:latest"
+        cd Region.Query
+        docker build -t $IMAGE_NAME .
+        docker push $IMAGE_NAME
+
+      - name: Logout from Docker Hub
+        run: docker logout
+
+  notify-config-repo:
+    name: Notify Configurations Repository
+    runs-on: self-hosted
+    needs: build-and-push
+
+    steps:
+      - name: Set the list of services to notify
+        id: services
+        run: |
+          echo "Determining which services were built successfully"
+          services="region-query"
+          echo "Services to notify: $services"
+          echo "services=$services" >> $GITHUB_OUTPUT
+
+      - name: Notify Configuration Repository
+        run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github.everest-preview+json" \
+            -H "Authorization: token ${{ secrets.CONFIG_REPO_TOKEN }}" \
+            -d '{"event_type": "update-configurations", "client_payload": {"services": "region-query"}}' \
+            https://api.github.com/repos/natanrobertoxavier/Tech.Challenge.III.Config.Repo/dispatches

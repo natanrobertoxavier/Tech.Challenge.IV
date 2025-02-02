@@ -12,13 +12,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # - name: Replace appsettings for Tech Challenge Persistence
-      #   run: |
-      #     echo "Replacing appsettings for Tech Challenge Persistence"
-      #     cp -f /home/natan/appsettings/appsettings.json ${{ github.workspace }}/Tech.Challenge.III.Persistence/Tech.Challenge.Persistence/Tech.Challenge.Persistence.Api/appsettings.json
-      #     cp -f /home/natan/appsettings/appsettings.Test.json ${{ github.workspace }}/Tech.Challenge.III.Persistence/Tech.Challenge.Persistence/Tech.Challenge.Persistence.Api/appsettings.Test.json
-      #     cp -f /home/natan/appsettings/appsettings.IntegrationTests.json ${{ github.workspace }}/Tech.Challenge.III.Persistence/Tech.Challenge.Persistence/Tech.Challenge.Persistence.Api/appsettings.IntegrationTests.json
-
       - name: Replace appsettings for Tech Challenge Persistence
         run: |
           echo "Replacing appsettings for Tech Challenge Persistence"

@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+	  <PackageReference Include="TokenService.Manager" Version="1.0.1" />
+	  <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.7" />
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+	  <PackageReference Include="prometheus-net.AspNetCore" Version="8.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Region.Query.Application\Region.Query.Application.csproj" />
+    <ProjectReference Include="..\Region.Query.Communication\Region.Query.Communication.csproj" />
+    <ProjectReference Include="..\Region.Query.Domain\Region.Query.Domain.csproj" />
+    <ProjectReference Include="..\Region.Query.Exceptions\Region.Query.Exceptions.csproj" />
+    <ProjectReference Include="..\Region.Query.Infrastructure\Region.Query.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

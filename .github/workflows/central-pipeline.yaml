@@ -30,6 +30,9 @@ jobs:
           elif echo "$MESSAGE" | grep -q "tech-challenge-persistence"; then
             echo "Executando workflow Tech Challenge Persistence"
             gh workflow run persistence.yaml
+          elif echo "$MESSAGE" | grep -q "region-query"; then
+            echo "Executando workflow Region Query"
+            gh workflow run region-query.yaml
           else
             echo "Nenhum workflow correspondente encontrado."
           fi
