@@ -6,18 +6,24 @@ on:
 jobs:
   build-and-push:
     name: Build, Test and Publish
-    runs-on: self-hosted
+    runs-on: NOTEBOOK-NATAN
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      # - name: Replace appsettings for User Login
+      #   run: |
+      #     echo "Replacing appsettings for User Login"
+      #     cp -f /home/natan/appsettings/appsettings.json ${{ github.workspace }}/Tech.Challenge.III.User.Login/User.Login/User.Login.Api/appsettings.json
+      #     cp -f /home/natan/appsettings/appsettings.Test.json ${{ github.workspace }}/Tech.Challenge.III.User.Login/User.Login/User.Login.Api/appsettings.Test.json
+      #     cp -f /home/natan/appsettings/appsettings.IntegrationTests.json ${{ github.workspace }}/Tech.Challenge.III.User.Login/User.Login/User.Login.Api/appsettings.IntegrationTests.json
       - name: Replace appsettings for User Login
         run: |
           echo "Replacing appsettings for User Login"
-          cp -f /home/natan/appsettings/appsettings.json ${{ github.workspace }}/Tech.Challenge.III.User.Login/User.Login/User.Login.Api/appsettings.json
-          cp -f /home/natan/appsettings/appsettings.Test.json ${{ github.workspace }}/Tech.Challenge.III.User.Login/User.Login/User.Login.Api/appsettings.Test.json
-          cp -f /home/natan/appsettings/appsettings.IntegrationTests.json ${{ github.workspace }}/Tech.Challenge.III.User.Login/User.Login/User.Login.Api/appsettings.IntegrationTests.json
+          cmd /C "copy /Y c:\appsettings\appsettings.json %GITHUB_WORKSPACE%\Tech.Challenge.III.User.Login\User.Login\User.Login.Api\appsettings.json"
+          cmd /C "copy /Y c:\appsettings\appsettings.Test.json %GITHUB_WORKSPACE%\Tech.Challenge.III.User.Login\User.Login\User.Login.Api\appsettings.Test.json"
+          cmd /C "copy /Y c:\appsettings\appsettings.IntegrationTests.json %GITHUB_WORKSPACE%\Tech.Challenge.III.User.Login\User.Login\User.Login.Api\appsettings.IntegrationTests.json"
 
       - name: Restore dependencies
         run: |
@@ -43,13 +49,17 @@ jobs:
       - name: Login to Docker Hub
         run: |
           echo "Logging into Docker Hub"
-          echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+          $env:DOCKERHUB_PASSWORD="${{ secrets.DOCKERHUB_PASSWORD }}"
+          $env:DOCKERHUB_USERNAME="${{ secrets.DOCKERHUB_USERNAME }}"
+          echo "Username: $env:DOCKERHUB_USERNAME"
+          echo "Password: $env:DOCKERHUB_PASSWORD"
+          docker login -u $env:DOCKERHUB_USERNAME -p $env:DOCKERHUB_PASSWORD
 
       - name: Build and Push Docker Image for User Login
         run: |
           echo "Building and pushing Docker image for User Login"
           cd Tech.Challenge.III.User.Login/User.Login/
-          IMAGE_NAME="natanroberto182/user-login:latest"
+          $IMAGE_NAME="natanroberto182/user-login:latest"
           docker build -t $IMAGE_NAME .
           docker push $IMAGE_NAME
 

@@ -40,7 +40,7 @@ jobs:
           echo "Running integration tests"
           dotnet test Tech.Challenge.III.User.Query/User.Query/User.Query.Integration.Tests/User.Query.Integration.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=integration-test-user-query-results.trx"
       
-      - name: Login to Docker Hub with PowerShell
+      - name: Login to Docker Hub
         run: |
           echo "Logging into Docker Hub"
           $env:DOCKERHUB_PASSWORD="${{ secrets.DOCKERHUB_PASSWORD }}"
