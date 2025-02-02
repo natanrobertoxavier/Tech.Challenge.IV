@@ -6,7 +6,7 @@ on:
 jobs:  
   build-and-push:
     name: Build, Test, and Publish Docker Images for Changed Services
-    runs-on: self-hosted
+    runs-on: NOTEBOOK-NATAN
 
     steps:
       - name: Checkout code
@@ -15,9 +15,9 @@ jobs:
       - name: Replace appsettings for User Query
         run: |
           echo "Replacing appsettings for User Query"
-          cp -f /home/natan/appsettings/appsettings.json ${{ github.workspace }}/Tech.Challenge.III.User.Query/User.Query/User.Query.Api/appsettings.json
-          cp -f /home/natan/appsettings/appsettings.Test.json ${{ github.workspace }}/Tech.Challenge.III.User.Query/User.Query/User.Query.Api/appsettings.Test.json
-          cp -f /home/natan/appsettings/appsettings.IntegrationTests.json ${{ github.workspace }}/Tech.Challenge.III.User.Query/User.Query/User.Query.Api/appsettings.IntegrationTests.json
+          cmd /C "copy /Y c:\appsettings\appsettings.json %GITHUB_WORKSPACE%\Tech.Challenge.III.User.Query\User.Query\User.Query.Api\appsettings.json
+          cmd /C "copy /Y c:\appsettings\appsettings.Test.json %GITHUB_WORKSPACE%\Tech.Challenge.III.User.Query\User.Query\User.Query.Api\appsettings.Test.json
+          cmd /C "copy /Y c:\appsettings\appsettings.IntegrationTests.json %GITHUB_WORKSPACE%\Tech.Challenge.III.User.Query\User.Query\User.Query.Api\appsettings.IntegrationTests.json
 
       - name: Restore dependencies
         run: |
