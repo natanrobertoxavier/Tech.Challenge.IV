@@ -12,12 +12,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Permitir execução de scripts no PowerShell
-        run: powershell Set-ExecutionPolicy Unrestricted -Scope Process -Force
-
       - name: Obter mensagem de commit
         id: commit_message
-        run: echo "MESSAGE=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
+        # run: echo "MESSAGE=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
+        run: cmd /c "echo MESSAGE=$(git log -1 --pretty=%B) >> %GITHUB_ENV%"
 
       - name: Identificar e disparar a pipeline do projeto
         run: |
