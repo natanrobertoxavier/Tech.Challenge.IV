@@ -25,9 +25,9 @@ jobs:
       - name: Obter mensagem do commit
         id: get_commit_message
         run: |
-          MESSAGE=$(git log -1 --pretty=%B)
-          echo "MESSAGE=$MESSAGE" >> $GITHUB_ENV 
-          
+          $MESSAGE = git log -1 --pretty=%B
+          echo "MESSAGE=$MESSAGE" >> $GITHUB_EN
+
       # - name: Identificar e disparar a pipeline do projeto
       #   run: |
       #     if echo "$MESSAGE" | grep -q "ocelot"; then
