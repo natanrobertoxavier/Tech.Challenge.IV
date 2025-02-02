@@ -13,8 +13,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Permitir execução de scripts no PowerShell
-        run: Set-ExecutionPolicy Unrestricted -Scope Process -Force
-        shell: pwsh
+        run: powershell Set-ExecutionPolicy Unrestricted -Scope Process -Force
 
       - name: Obter mensagem de commit
         id: commit_message
