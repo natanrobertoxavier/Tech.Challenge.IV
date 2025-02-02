@@ -73,7 +73,7 @@ jobs:
           $services="tech-challenge-persistence"
           echo "Services to notify: $services"
           echo "services=$services" >> $GITHUB_OUTPUT
-          
+
       - name: Notify Configuration Repository
         run: |
           curl.exe -X POST ^
@@ -82,3 +82,4 @@ jobs:
             -d "{\"event_type\": \"update-configurations\", \"client_payload\": {\"services\": \"tech-challenge-persistence\"}}" ^
             https://api.github.com/repos/natanrobertoxavier/Tech.Challenge.III.Config.Repo/dispatches
         shell: cmd
+        
