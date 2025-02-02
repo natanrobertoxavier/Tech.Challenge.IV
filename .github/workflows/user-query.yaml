@@ -59,7 +59,7 @@ jobs:
 
   notify-config-repo:
     name: Notify Configurations Repository
-    runs-on: self-hosted
+    runs-on: NOTEBOOK-NATAN
     needs: build-and-push
 
     steps:
@@ -67,14 +67,15 @@ jobs:
         id: services
         run: |
           echo "Determining which services were built successfully"
-          services="user-query"
+          $services="user-query"
           echo "Services to notify: $services"
           echo "services=$services" >> $GITHUB_OUTPUT
 
       - name: Notify Configuration Repository
         run: |
-          curl -X POST \
-            -H "Accept: application/vnd.github.everest-preview+json" \
-            -H "Authorization: token ${{ secrets.CONFIG_REPO_TOKEN }}" \
-            -d '{"event_type": "update-configurations", "client_payload": {"services": "user-query"}}' \
+          curl.exe -X POST ^
+            -H "Accept: application/vnd.github.everest-preview+json" ^
+            -H "Authorization: token ${{ secrets.CONFIG_REPO_TOKEN }}" ^
+            -d "{\"event_type\": \"update-configurations\", \"client_payload\": {\"services\": \"user-query\"}}" ^
             https://api.github.com/repos/natanrobertoxavier/Tech.Challenge.III.Config.Repo/dispatches
+        shell: cmd
