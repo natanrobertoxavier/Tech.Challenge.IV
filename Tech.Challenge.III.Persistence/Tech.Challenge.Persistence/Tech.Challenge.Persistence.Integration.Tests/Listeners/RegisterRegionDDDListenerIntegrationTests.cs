@@ -32,7 +32,6 @@ public class RegisterRegionDDDListenerIntegrationTests : IClassFixture<RabbitMqF
 
         services.AddSingleton<IConnectionFactory>(_rabbitMqFixture.ConnectionFactory);
         services.AddSingleton<Serilog.ILogger>(new LoggerConfiguration().WriteTo.Console().CreateLogger());
-        //services.AddSingleton<IServiceScopeFactory, ServiceScopeFactory>();
 
         services.AddScoped<IRegionWriteOnlyRepository, RegionWriteOnlyRepository>();
         services.AddScoped<IRegionDDDReadOnlyRepository, RegionDDDReadOnlyRepository>();
